@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict
+from typing import List, Dict
 
 import requests
 
@@ -25,6 +25,7 @@ class HeadHunterAPI(BaseHeadHunterAPI):
                     vacancies = response.json()['items']
                     self.vacancies.extend(vacancies)
                     self.params['page'] += 1
+
                 else:
                     raise Exception(f"Ошибка при запросе к API: {response.status_code}, {response.text}")
             except requests.exceptions.Timeout:
@@ -46,8 +47,9 @@ if __name__ == "__main__":
     try:
         vacancies = hh_api.get_vacancies(keyword="Python")
         print(f"Найдено вакансий: {len(vacancies)}")
-        for vacancy in vacancies[:5]:  # Выводим первые 5 вакансий
-            print(vacancy['name'], vacancy['alternate_url'])
+        # for vacancy in vacancies[:5]:  # Выводим первые 5 вакансий
+        #     print(vacancy['name'], vacancy['alternate_url'])
+        print(vacancies[0:1])
     except Exception as e:
         print(e)
 
