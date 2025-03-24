@@ -1,11 +1,11 @@
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
 
 
-class BaseHeadHunterAPI(ABC):
+class BaseAPI(ABC):
     """Базовый абстрактный класс для работы с API сервиса с вакансиями"""
 
     @abstractmethod
-    def connecting_api(self, max_pages):
+    def connecting_api(self, max_pages: int):
         """abstractmethod подключения к API"""
         pass
 

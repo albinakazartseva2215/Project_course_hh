@@ -1,10 +1,8 @@
+from typing import Union, Tuple, List
+
+
 def filter_vacancies(vacancies_list: list, filter_words: str) -> list:
-    """
-    Фильтрует список вакансий по ключевым словам.
-    :param vacancies_list: Список объектов Vacancy.
-    :param filter_words: Список ключевых слов для фильтрации.
-    :return: Отфильтрованный список объектов Vacancy.
-    """
+    """Фильтрует список вакансий по ключевым словам."""
     if not filter_words:
         return vacancies_list  # Если ключевые слова не указаны, возвращаем весь список
 
@@ -12,20 +10,20 @@ def filter_vacancies(vacancies_list: list, filter_words: str) -> list:
     for vacancy in vacancies_list:
         # Проверяем, содержатся ли ключевые слова в названии вакансии, компании или опыте
         for word in filter_words:
-            if (word.lower() in vacancy.name.lower() or
-                    word.lower() in vacancy.company.lower() or
-                    word.lower() in vacancy.experience.lower()):
+            if (
+                word.lower() in vacancy.name.lower()
+                or word.lower() in vacancy.company.lower()
+                or word.lower() in vacancy.experience.lower()
+            ):
                 filtered_vacancies.append(vacancy)
                 break  # Если хотя бы одно слово найдено, добавляем вакансию и выходим из цикла
     return filtered_vacancies
 
-def get_vacancies_by_salary(filtered_vacancies, salary_range):
-    """
-    Фильтрует список вакансий по диапазону зарплат.
-    :param filtered_vacancies: Список объектов Vacancy.
-    :param salary_range: Диапазон зарплат в формате "min-max" или [min, max].
-    :return: Отфильтрованный список объектов Vacancy.
-    """
+
+def get_vacancies_by_salary(
+    filtered_vacancies: list, salary_range: Union[str, Tuple[int, int], List[int], None]
+) -> list:
+    """Фильтрует список вакансий по диапазону зарплат."""
     if not salary_range:
         return filtered_vacancies  # Если диапазон не указан, возвращаем весь список
 
@@ -48,33 +46,21 @@ def get_vacancies_by_salary(filtered_vacancies, salary_range):
 
     return filtered_by_salary
 
-def sort_vacancies(vacancies, reverse=True):
-    """
-    Сортирует список вакансий по зарплате.
-    :param vacancies: Список объектов Vacancy.
-    :param reverse: Если True, сортировка по убыванию зарплаты.
-    :return: Отсортированный список объектов Vacancy.
-    """
+
+def sort_vacancies(vacancies: list, reverse: bool = True) -> list:
+    """Сортирует список вакансий по зарплате."""
     return sorted(vacancies, key=lambda x: x.salary, reverse=reverse)
 
 
-def get_top_vacancies(vacancies, top_n):
-    """
-    Возвращает топ-N вакансий из списка.
-    :param vacancies: Список объектов Vacancy.
-    :param top_n: Количество вакансий для возврата.
-    :return: Список из топ-N объектов Vacancy.
-    """
+def get_top_vacancies(vacancies: list, top_n: int) -> list:
+    """Возвращает топ-N вакансий из списка."""
     if top_n <= 0:
         return []  # Если top_n не положительное число, возвращаем пустой список
     return vacancies[:top_n]
 
 
-def print_vacancies(vacancies):
-    """
-    Выводит информацию о вакансиях в удобочитаемом формате.
-    :param vacancies: Список объектов Vacancy.
-    """
+def print_vacancies(vacancies: list) -> None:
+    """Выводит информацию о вакансиях в удобочитаемом формате."""
     if not vacancies:
         print("Нет вакансий, соответствующих заданным критериям.")
         return

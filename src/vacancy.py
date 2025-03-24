@@ -1,7 +1,24 @@
-class Vacancy():
-    __slots__ = ['name', 'company', 'alternate_url', 'salary', 'experience']
+from __future__ import annotations
+from typing import Union, Any, Dict, List
 
-    def __init__(self, name, company, alternate_url, salary, experience):
+
+class Vacancy:
+    __slots__ = ["name", "company", "alternate_url", "salary", "experience"]
+
+    name: str
+    company: str
+    alternate_url: str
+    salary: Union[int, float]
+    experience: str
+
+    def __init__(
+            self,
+            name: str,
+            company: str,
+            alternate_url: str,
+            salary: Union[int, float],
+            experience: str
+    ) -> None:
         self.name = self._validate_name(name)
         self.company = self._validate_company(company)
         self.alternate_url = self._validate_alternate_url(alternate_url)
@@ -21,7 +38,7 @@ class Vacancy():
             raise ValueError("Название компании должно быть непустой строкой.")
         return company
 
-    def _validate_salary(self, salary: int | float) -> int | float:
+    def _validate_salary(self, salary: Union[int, float]) -> Union[int, float]:
         """Метод проверяет, что зарплата является положительным числом."""
         if not isinstance(salary, (int, float)) or salary < 0:
             raise ValueError("Зарплата должна быть положительным числом.")
@@ -33,53 +50,61 @@ class Vacancy():
             raise ValueError("Ссылка на вакансию должна быть строкой и начинаться с http.")
         return alternate_url
 
-
-    def _validate_experiance(self, experience) -> str:
+    def _validate_experiance(self, experience: str) -> str:
         """Метод проверяет, что опыт работы является непустой строкой."""
         if not isinstance(experience, str) or not experience.strip():
             raise ValueError("Название компании должно быть непустой строкой.")
         return experience
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> Any:
         """Магический метод проверяет равенство зарплат двух вакансий."""
         if not isinstance(other, Vacancy):
             return NotImplemented
         return self.salary == other.salary
 
-    def __lt__(self, other):
+    def __lt__(self, other: Any) -> Any:
         """Магический метод проверяет, меньше ли зарплата текущей вакансии, чем у другой."""
         if not isinstance(other, Vacancy):
             return NotImplemented
         return self.salary < other.salary
 
-    def __le__(self, other):
+    def __le__(self, other: Any) -> Any:
         """Магический метод проверяет, меньше или равна ли зарплата текущей вакансии, чем у другой."""
         if not isinstance(other, Vacancy):
             return NotImplemented
         return self.salary <= other.salary
 
-    def __gt__(self, other):
+    def __gt__(self, other: Any) -> Any:
         """Магический метод проверяет, больше ли зарплата текущей вакансии, чем у другой."""
         if not isinstance(other, Vacancy):
             return NotImplemented
         return self.salary > other.salary
 
-    def __ge__(self, other):
+    def __ge__(self, other: Any) -> Any:
         """Магический метод проверяет, больше или равна ли зарплата текущей вакансии, чем у другой."""
         if not isinstance(other, Vacancy):
             return NotImplemented
         return self.salary >= other.salary
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Магический метод для отображения информации об объекте класса в режиме отладки"""
-        return f"Vacancy(name={self.name!r}, company={self.company!r}, alternate_url={self.alternate_url!r}, salary={self.salary!r}, experience={self.experience!r})"
+        return (
+            f"Vacancy(name={self.name!r}, "
+            f"company={self.company!r}, "
+            f"alternate_url={self.alternate_url!r}, "
+            f"salary={self.salary!r}, "
+            f"experience={self.experience!r})"
+        )
 
     def __str__(self) -> str:
         """Магический метод для отображения информации об объекте класса для пользователей"""
-        return f"Вакансия: {self.name} в компании {self.company} с опытом '{self.experience}' и зарплатой {self.salary} руб. Ссылка: {self.alternate_url}"
+        return (
+            f"Вакансия: {self.name} в компании {self.company} "
+            f"с опытом '{self.experience}' и зарплатой {self.salary} руб. "
+            f"Ссылка: {self.alternate_url}"
+        )
 
-
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict[str, Union[str, int, float]]:
         """
         Преобразует объект Vacancy в словарь.
         :return: Словарь с атрибутами объекта.
@@ -89,22 +114,22 @@ class Vacancy():
             "компания": self.company,
             "url": self.alternate_url,
             "зарплата": self.salary,
-            "опыт": self.experience
+            "опыт": self.experience,
         }
 
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data: Dict[str, Any]) -> Vacancy:
         """Создает объект Vacancy из словаря."""
         return cls(
             name=data.get("вакансия"),
             company=data.get("компания"),
             alternate_url=data.get("url"),
             salary=data.get("зарплата"),
-            experience=data.get("опыт")
+            experience=data.get("опыт"),
         )
 
     @staticmethod
-    def cast_to_object_list(data):
+    def cast_to_object_list(data: List[Dict[str, Any]]) -> List[Vacancy]:
         """
         Преобразует JSON-данные (список словарей) в список объектов Vacancy.
         :param data: Список словарей с данными о вакансиях.
@@ -135,7 +160,7 @@ class Vacancy():
                 company=item.get("employer", {}).get("name"),
                 alternate_url=item.get("alternate_url"),
                 salary=salary,
-                experience=item.get("experience", {}).get("name")
+                experience=item.get("experience", {}).get("name"),
             )
             vacancies.append(vacancy)
         return vacancies
@@ -143,8 +168,8 @@ class Vacancy():
 
 if __name__ == "__main__":
 
-    vacancy1 = Vacancy("Python разработчик", "ПАО МТС", 'https://hh.ru/vacancy/123', 100000, 'Нет опыта')
-    vacancy2 = Vacancy("Data инженер", "Data Inc", 'https://hh.ru/vacancy/456', 120000, 'От 1 года до 3 лет')
+    vacancy1 = Vacancy("Python разработчик", "ПАО МТС", "https://hh.ru/vacancy/123", 100000, "Нет опыта")
+    vacancy2 = Vacancy("Data инженер", "Data Inc", "https://hh.ru/vacancy/456", 120000, "От 1 года до 3 лет")
 
     print(vacancy1)
     print(vacancy2)

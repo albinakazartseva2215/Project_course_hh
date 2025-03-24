@@ -4,15 +4,7 @@ from src.helper_functions import filter_vacancies, get_vacancies_by_salary, sort
 from src.json_saver import JSONSaver
 from src.vacancy import Vacancy
 
-hh_api = HeadHunterAPI()
-
-# Получение вакансий с hh.ru в формате JSON
-hh_vacancies = hh_api.get_vacancies("Python")
-
-# Преобразование набора данных из JSON в список объектов
-vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
-
-# Пример работы контструктора класса с одной вакансией
+# Пример работы конструктора класса с одной вакансией
 vacancy = Vacancy("Data инженер", "Data Inc", 'https://hh.ru/vacancy/456', 120000, 'От 1 года до 3 лет')
 
 # Сохранение информации о вакансиях в файл
@@ -22,13 +14,14 @@ json_saver.delete_vacancy(vacancy)
 
 # Функция для взаимодействия с пользователем
 
-def user_interaction():
+
+def user_interaction() -> None:
     global hh_api
     platforms = ["HeadHunter"]
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
     filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
-    salary_range = input("Введите диапазон зарплат: ") # Пример: 100000 - 150000
+    salary_range = input("Введите диапазон зарплат: ")  # Пример: 100000 - 150000
 
     if platforms:
         hh_api = HeadHunterAPI()
