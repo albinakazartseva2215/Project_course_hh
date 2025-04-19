@@ -11,13 +11,13 @@ def user_interaction():
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
     filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
-    salary_range = input("Введите диапазон зарплат: ") # Пример: 100000 - 150000
+    salary_range = input("Введите диапазон зарплат: ")   # Пример: 100000 - 150000
 
     if platforms:
         hh_api = HeadHunterAPI()
 
     # Получение вакансий с hh.ru в формате JSON
-    hh_vacancies = hh_api.get_vacancies(search_query)
+    hh_vacancies = hh_api.get_vacancies_with_keyword(search_query)
 
     # Преобразование набора данных из JSON в список объектов
     vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
