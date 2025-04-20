@@ -1,16 +1,15 @@
 from src.head_hunter_api import HeadHunterAPI
 from src.helper_functions import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies, \
     print_vacancies
-from src.json_saver import JSONSaver
 from src.vacancy import Vacancy
 
 # Пример работы конструктора класса с одной вакансией
-vacancy = Vacancy("Data инженер", "Data Inc", 'https://hh.ru/vacancy/456', 120000, 'От 1 года до 3 лет')
+# vacancy = Vacancy("Data инженер", "Data Inc", 'https://hh.ru/vacancy/456', 120000, 'От 1 года до 3 лет')
 
 # Сохранение информации о вакансиях в файл
-json_saver = JSONSaver()
-json_saver.add_vacancy(vacancy)
-json_saver.delete_vacancy(vacancy)
+# json_saver = JSONSaver()
+# json_saver.add_vacancy(vacancy)
+# json_saver.delete_vacancy(vacancy)
 
 # Функция для взаимодействия с пользователем
 
@@ -25,19 +24,21 @@ def user_interaction() -> None:
 
     if platforms:
         hh_api = HeadHunterAPI()
-
+    print("Начинаем работу")
     # Получение вакансий с hh.ru в формате JSON
-    hh_vacancies = hh_api.get_vacancies(search_query)
-
+    hh_vacancies = hh_api.get_vacancies_with_keyword(search_query)
+    print("функция hh_api.get_vacancies отработала")
     # Преобразование набора данных из JSON в список объектов
     vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
-
+    print("функция Vacancy.cast_to_object_list отработала")
     filtered_vacancies = filter_vacancies(vacancies_list, filter_words)
-
+    print("функция filter_vacancies отработала")
     ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
-
+    print("функция get_vacancies_by_salary отработала")
     sorted_vacancies = sort_vacancies(ranged_vacancies)
+    print("функция sort_vacancies отработала")
     top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
+    print("функция get_top_vacancies отработала")
     print_vacancies(top_vacancies)
 
 
