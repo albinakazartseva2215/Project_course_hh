@@ -4,7 +4,7 @@ from database import create_database
 from head_hunter_api import HeadHunterAPI
 from db_manager import DBManager
 from config import config
-from src.main import user_interaction
+from src.user_interaction import user_interaction
 
 
 def fill_database(params: dict, employers: list):
@@ -83,7 +83,7 @@ def fill_database(params: dict, employers: list):
 
 
 def main():
-    print(user_interaction())
+    print(user_interaction())  #по старым методам и функциям
     try:
         # Получаем параметры подключения
         params = config()

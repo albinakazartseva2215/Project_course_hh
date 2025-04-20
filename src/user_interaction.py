@@ -19,15 +19,18 @@ def user_interaction():
     # Получение вакансий с hh.ru в формате JSON
     hh_vacancies = hh_api.get_vacancies_with_keyword(search_query)
 
+    print("функция hh_api.get_vacancies отработала")
     # Преобразование набора данных из JSON в список объектов
     vacancies_list = Vacancy.cast_to_object_list(hh_vacancies)
-
+    print("функция Vacancy.cast_to_object_list отработала")
     filtered_vacancies = filter_vacancies(vacancies_list, filter_words)
-
+    print("функция filter_vacancies отработала")
     ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
-
+    print("функция get_vacancies_by_salary отработала")
     sorted_vacancies = sort_vacancies(ranged_vacancies)
+    print("функция sort_vacancies отработала")
     top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
+    print("функция get_top_vacancies отработала")
     print_vacancies(top_vacancies)
 
 
